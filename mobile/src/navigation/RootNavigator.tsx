@@ -1,0 +1,101 @@
+import React from 'react';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {GlobalMicButton} from '@/components/GlobalMicButton';
+import {AuthStackParamList, MainTabParamList, RootStackParamList} from '@/navigation/types';
+import {BudgetScreen} from '@/screens/BudgetScreen';
+import {HomeScreen} from '@/screens/HomeScreen';
+import {LandingScreen} from '@/screens/LandingScreen';
+import {GoalsScreen} from '@/screens/GoalsScreen';
+import {InsightsScreen} from '@/screens/InsightsScreen';
+import {ReportsScreen} from '@/screens/ReportsScreen';
+import {SettingsScreen} from '@/screens/SettingsScreen';
+import {TransactionEditorScreen} from '@/screens/TransactionEditorScreen';
+import {TransactionsScreen} from '@/screens/TransactionsScreen';
+import {LoginScreen} from '@/screens/auth/LoginScreen';
+import {OtpVerificationScreen} from '@/screens/auth/OtpVerificationScreen';
+import {RegisterScreen} from '@/screens/auth/RegisterScreen';
+import {useAppSelector} from '@/store/hooks';
+import {useAppTheme} from '@/hooks/useAppTheme';
+
+const RootStack = createNativeStackNavigator<RootStackParamList>();
+const AuthStack = createNativeStackNavigator<AuthStackParamList>();
+const Tabs = createBottomTabNavigator<MainTabParamList>();
+
+function AuthNavigator() {
+  return (
+    <AuthStack.Navigator screenOptions={{headerShown: false}}>
+      <AuthStack.Screen name="Login" component={LoginScreen} />
+      <AuthStack.Screen name="Register" component={RegisterScreen} />
+      <AuthStack.Screen name="OtpVerification" component={OtpVerificationScreen} />
+    </AuthStack.Navigator>
+  );
+}
+
+function MainTabs() {
+  const theme = useAppTheme();
+
+  return (
+    <Tabs.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: theme.colors.primary,
+        tabBarInactiveTintColor: theme.colors.muted,
+        tabBarStyle: {
+          backgroundColor: theme.colors.surface,
+          borderTopColor: theme.colors.border,
+          minHeight: 64,
+          paddingBottom: 8,
+          paddingTop: 8,
+        },
+        tabBarLabelStyle: {fontSize: 12, fontWeight: '600'},
+      }}>
+      <Tabs.Screen name="Home" component={HomeScreen} options={{tabBarLabel: 'হোম'}} />
+      <Tabs.Screen name="Transactions" component={TransactionsScreen} options={{tabBarLabel: 'লেনদেন'}} />
+      <Tabs.Screen name="Budget" component={BudgetScreen} options={{tabBarLabel: 'বাজেট'}} />
+      <Tabs.Screen name="Goals" component={GoalsScreen} options={{tabBarLabel: 'লক্ষ্য'}} />
+      <Tabs.Screen name="Reports" component={ReportsScreen} options={{tabBarLabel: 'রিপোর্ট'}} />
+      <Tabs.Screen name="Insights" component={InsightsScreen} options={{tabBarLabel: 'ইনসাইট'}} />
+      <Tabs.Screen name="Settings" component={SettingsScreen} options={{tabBarLabel: 'সেটিংস'}} />
+    </Tabs.Navigator>
+  );
+}
+
+function AuthenticatedApp() {
+  return (
+    <>
+      <RootStack.Screen name="Main" component={MainTabs} options={{headerShown: false}} />
+      <RootStack.Screen
+        name="TransactionEditor"
+        component={TransactionEditorScreen}
+        options={{title: 'লেনদেন', headerShown: false}}
+      />
+    </>
+  );
+}
+
+function UnauthenticatedApp() {
+  return (
+    <>
+      <RootStack.Screen name="Landing" component={LandingScreen} />
+      <RootStack.Screen name="Auth" component={AuthNavigator} />
+    </>
+  );
+}
+
+export function RootNavigator() {
+  const token = useAppSelector(state => state.auth.accessToken);
+
+  return (
+    <>
+      <RootStack.Navigator screenOptions={{headerShown: false}}>
+        {token ? (
+          <RootStack.Group>{AuthenticatedApp()}</RootStack.Group>
+        ) : (
+          <RootStack.Group>{UnauthenticatedApp()}</RootStack.Group>
+        )}
+      </RootStack.Navigator>
+      {token ? <GlobalMicButton /> : null}
+    </>
+  );
+}

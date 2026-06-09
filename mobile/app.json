@@ -1,0 +1,7 @@
+{
+  "name": "SmartCost",
+  "displayName": "Smart Cost",
+  "android": {
+    "package": "com.mostakshahariyar.smartcost"
+  }
+}
