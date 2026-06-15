@@ -1,6 +1,7 @@
 import React from 'react';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {NavigationContainer, DefaultTheme, DarkTheme} from '@react-navigation/native';
+import {navigationRef} from '@/navigation/RootNavigation';
 import {Provider} from 'react-redux';
 import {store} from '@/store';
 import {useAppTheme} from '@/hooks/useAppTheme';
@@ -20,6 +21,7 @@ function NavigationThemeProvider({children}: {children: React.ReactNode}) {
 
   return (
     <NavigationContainer
+      ref={navigationRef}
       theme={{
         ...baseTheme,
         colors: {

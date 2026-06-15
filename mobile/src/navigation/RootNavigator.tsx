@@ -4,7 +4,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {GlobalMicButton} from '@/components/GlobalMicButton';
 import {AuthStackParamList, MainTabParamList, RootStackParamList} from '@/navigation/types';
 import {BudgetScreen} from '@/screens/BudgetScreen';
-import {HomeScreen} from '@/screens/HomeScreen';
+import {DashboardScreen} from '@/screens/DashboardScreen';
 import {LandingScreen} from '@/screens/LandingScreen';
 import {GoalsScreen} from '@/screens/GoalsScreen';
 import {InsightsScreen} from '@/screens/InsightsScreen';
@@ -50,7 +50,7 @@ function MainTabs() {
         },
         tabBarLabelStyle: {fontSize: 12, fontWeight: '600'},
       }}>
-      <Tabs.Screen name="Home" component={HomeScreen} options={{tabBarLabel: 'হোম'}} />
+      <Tabs.Screen name="Home" component={DashboardScreen} options={{tabBarLabel: 'হোম'}} />
       <Tabs.Screen name="Transactions" component={TransactionsScreen} options={{tabBarLabel: 'লেনদেন'}} />
       <Tabs.Screen name="Budget" component={BudgetScreen} options={{tabBarLabel: 'বাজেট'}} />
       <Tabs.Screen name="Goals" component={GoalsScreen} options={{tabBarLabel: 'লক্ষ্য'}} />

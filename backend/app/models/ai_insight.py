@@ -14,10 +14,4 @@ class AIInsight(Base):
     insight_type: Mapped[str] = mapped_column(String(100), nullable=False)
     summary: Mapped[str] = mapped_column(Text, nullable=False)
     metadata_: Mapped[dict | None] = mapped_column(JSON, name="metadata", nullable=True)
-    @property
-    def metadata(self) -> dict | None:
-        return self.metadata_
-    @metadata.setter
-    def metadata(self, value: dict | None) -> None:
-        self.metadata_ = value
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)

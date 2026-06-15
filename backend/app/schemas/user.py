@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, validator
 
 
 class UserBase(BaseModel):
@@ -11,6 +11,12 @@ class UserBase(BaseModel):
 class UserCreate(UserBase):
     password: str
 
+    @validator("password")
+    def password_max_bytes(cls, value: str) -> str:
+        if len(value.encode("utf-8")) > 72:
+            raise ValueError("Password must be at most 72 bytes when encoded as UTF-8")
+        return value
+
 
 class UserRead(UserBase):
     id: int
@@ -19,4 +25,4 @@ class UserRead(UserBase):
     updated_at: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True

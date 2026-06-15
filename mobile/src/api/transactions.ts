@@ -1,5 +1,5 @@
 import {apiClient} from '@/api/client';
-import {FinancialSummary, Transaction, TransactionType} from '@/types';
+import {Transaction, TransactionType} from '@/types';
 
 export type TransactionPayload = {
   type: TransactionType;
@@ -20,10 +20,6 @@ export type TransactionFilters = {
 export const transactionsApi = {
   list: async (filters?: TransactionFilters) => {
     const {data} = await apiClient.get<Transaction[]>('/transactions', {params: filters});
-    return data;
-  },
-  summary: async () => {
-    const {data} = await apiClient.get<FinancialSummary>('/transactions/summary');
     return data;
   },
   create: async (payload: TransactionPayload) => {
