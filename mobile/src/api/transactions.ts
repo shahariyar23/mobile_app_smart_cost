@@ -84,11 +84,11 @@ function fromApiTransaction(transaction: ApiTransaction): Transaction {
 
 export const transactionsApi = {
   list: async (filters?: TransactionFilters) => {
-    const {data} = await apiClient.get<ApiTransaction[]>('/transactions', {params: filters});
+    const {data} = await apiClient.get<ApiTransaction[]>('/transactions/', {params: filters});
     return data.map(fromApiTransaction);
   },
   create: async (payload: TransactionPayload) => {
-    const {data} = await apiClient.post<ApiTransaction>('/transactions', toApiPayload(payload));
+    const {data} = await apiClient.post<ApiTransaction>('/transactions/', toApiPayload(payload));
     return fromApiTransaction(data);
   },
   update: async (id: string, payload: TransactionPayload) => {

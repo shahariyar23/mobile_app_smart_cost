@@ -1,4 +1,6 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from datetime import date
+
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
 from app.dependencies.databae import get_db
@@ -84,8 +86,33 @@ def delete_transaction(transaction_id: int, db: Session = Depends(get_db)) -> No
 
 
 @router.get("/", response_model=list[TransactionRead])
-def list_transactions(db: Session = Depends(get_db)) -> list[TransactionRead]:
-    transactions = db.query(Transaction).all()
+def list_transactions(
+    search: str | None = Query(default=None),
+    type: str | None = Query(default=None),
+    category: str | None = Query(default=None),
+    from_date: date | None = Query(default=None, alias="from"),
+    to_date: date | None = Query(default=None, alias="to"),
+    db: Session = Depends(get_db),
+) -> list[TransactionRead]:
+    query = db.query(Transaction).outerjoin(Category, Transaction.category_id == Category.id)
+
+    if type and type != "all":
+        query = query.filter(Transaction.type == type)
+
+    if category and category != "all":
+        query = query.filter(Category.name == category)
+
+    if search:
+        pattern = f"%{search}%"
+        query = query.filter((Transaction.note.ilike(pattern)) | (Category.name.ilike(pattern)))
+
+    if from_date:
+        query = query.filter(Transaction.transaction_date >= from_date)
+
+    if to_date:
+        query = query.filter(Transaction.transaction_date <= to_date)
+
+    transactions = query.order_by(Transaction.transaction_date.desc(), Transaction.id.desc()).all()
     return [_with_category(transaction, db) for transaction in transactions]
 
 

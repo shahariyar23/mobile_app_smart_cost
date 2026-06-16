@@ -37,6 +37,7 @@ export function useFinancialSummary() {
         monthlyIncome: report.totalIncome,
         monthlyExpense: report.totalExpense,
         savings: Math.max(0, report.totalIncome - report.totalExpense),
+        categoryBreakdown: report.categoryBreakdown,
       };
     },
   });
