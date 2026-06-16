@@ -67,18 +67,18 @@ export function GlobalMicButton() {
 }
 
 const styles = StyleSheet.create({
-  wrap: {position: 'absolute', right: 20, bottom: 26, zIndex: 20},
+  wrap: {position: 'absolute', right: 20, top: 20, zIndex: 20},
   button: {
-    width: 68,
-    height: 68,
-    borderRadius: 34,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
     alignItems: 'center',
     justifyContent: 'center',
-    elevation: 6,
+    elevation: 4,
     shadowColor: '#000',
-    shadowOpacity: 0.25,
-    shadowRadius: 12,
-    shadowOffset: {width: 0, height: 6},
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    shadowOffset: {width: 0, height: 4},
   },
-  icon: {color: '#FFFFFF', fontSize: 15, lineHeight: 20},
+  icon: {color: '#FFFFFF', fontSize: 12, lineHeight: 16},
 });

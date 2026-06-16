@@ -1,7 +1,9 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import {GlobalMicButton} from '@/components/GlobalMicButton';
+import {AppText} from '@/components/AppText';
 import {AuthStackParamList, MainTabParamList, RootStackParamList} from '@/navigation/types';
 import {BudgetScreen} from '@/screens/BudgetScreen';
 import {DashboardScreen} from '@/screens/DashboardScreen';
@@ -38,7 +40,13 @@ function MainTabs() {
   return (
     <Tabs.Navigator
       screenOptions={{
-        headerShown: false,
+        headerShown: true,
+        headerTitleAlign: 'left',
+        headerTitle: 'স্মার্ট কস্ট',
+        headerTitleStyle: {fontSize: 24, fontWeight: '700', color: theme.colors.text},
+        headerStyle: {backgroundColor: theme.colors.surface, borderBottomColor: theme.colors.border, borderBottomWidth: 1, elevation: 2},
+        headerRightContainerStyle: {paddingRight: 20},
+        headerLeftContainerStyle: {paddingLeft: 20},
         tabBarActiveTintColor: theme.colors.primary,
         tabBarInactiveTintColor: theme.colors.muted,
         tabBarStyle: {
@@ -50,13 +58,62 @@ function MainTabs() {
         },
         tabBarLabelStyle: {fontSize: 12, fontWeight: '600'},
       }}>
-      <Tabs.Screen name="Home" component={DashboardScreen} options={{tabBarLabel: 'হোম'}} />
-      <Tabs.Screen name="Transactions" component={TransactionsScreen} options={{tabBarLabel: 'লেনদেন'}} />
-      <Tabs.Screen name="Budget" component={BudgetScreen} options={{tabBarLabel: 'বাজেট'}} />
-      <Tabs.Screen name="Goals" component={GoalsScreen} options={{tabBarLabel: 'লক্ষ্য'}} />
-      <Tabs.Screen name="Reports" component={ReportsScreen} options={{tabBarLabel: 'রিপোর্ট'}} />
-      <Tabs.Screen name="Insights" component={InsightsScreen} options={{tabBarLabel: 'ইনসাইট'}} />
-      <Tabs.Screen name="Settings" component={SettingsScreen} options={{tabBarLabel: 'সেটিংস'}} />
+      <Tabs.Screen 
+        name="Home" 
+        component={DashboardScreen} 
+        options={{
+          tabBarLabel: 'হোম',
+          tabBarIcon: ({color, size}) => <Ionicons name="home" size={size} color={color} />,
+        }} 
+      />
+      <Tabs.Screen 
+        name="Transactions" 
+        component={TransactionsScreen} 
+        options={{
+          tabBarLabel: 'লেনদেন',
+          tabBarIcon: ({color, size}) => <Ionicons name="shuffle" size={size} color={color} />,
+        }} 
+      />
+      <Tabs.Screen 
+        name="Budget" 
+        component={BudgetScreen} 
+        options={{
+          tabBarLabel: 'বাজেট',
+          tabBarIcon: ({color, size}) => <Ionicons name="calculator" size={size} color={color} />,
+        }} 
+      />
+      <Tabs.Screen 
+        name="Goals" 
+        component={GoalsScreen} 
+        options={{
+          tabBarLabel: 'লক্ষ্য',
+          tabBarIcon: ({color, size}) => <Ionicons name="radio-button-on" size={size} color={color} />,
+        }} 
+      />
+      <Tabs.Screen 
+        name="Reports" 
+        component={ReportsScreen} 
+        options={{
+          tabBarLabel: 'রিপোর্ট',
+          tabBarIcon: ({color, size}) => <Ionicons name="stats-chart" size={size} color={color} />,
+        }} 
+      />
+      <Tabs.Screen 
+        name="Insights" 
+        component={InsightsScreen} 
+        options={{
+          tabBarLabel: 'ইনসাইট',
+          tabBarIcon: ({color, size}) => <Ionicons name="bulb" size={size} color={color} />,
+        }} 
+      />
+      <Tabs.Screen 
+        name="Settings" 
+        component={SettingsScreen} 
+        options={{
+          tabBarLabel: 'সেটিংস',
+          tabBarIcon: ({color, size}) => <Ionicons name="settings" size={size} color={color} />,
+        }} 
+      />
     </Tabs.Navigator>
   );
 }

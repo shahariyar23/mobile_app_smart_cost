@@ -1,10 +1,15 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {NavigationContainer, DefaultTheme, DarkTheme} from '@react-navigation/native';
 import {navigationRef} from '@/navigation/RootNavigation';
 import {Provider} from 'react-redux';
 import {store} from '@/store';
 import {useAppTheme} from '@/hooks/useAppTheme';
+import {Ionicons} from '@expo/vector-icons';
+import * as Font from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+
+SplashScreen.preventAutoHideAsync();
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -39,6 +44,27 @@ function NavigationThemeProvider({children}: {children: React.ReactNode}) {
 }
 
 export function AppProviders({children}: {children: React.ReactNode}) {
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  useEffect(() => {
+    async function loadFonts() {
+      try {
+        await Font.loadAsync(Ionicons.font);
+      } catch (e) {
+        console.warn('Error loading fonts:', e);
+      } finally {
+        setFontsLoaded(true);
+        await SplashScreen.hideAsync();
+      }
+    }
+
+    loadFonts();
+  }, []);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>

@@ -6,6 +6,7 @@ from pydantic import BaseModel
 class TransactionBase(BaseModel):
     user_id: int
     category_id: int | None = None
+    category: str | None = None
     amount: float
     type: str
     note: str | None = None

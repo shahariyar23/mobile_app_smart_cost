@@ -1,7 +1,17 @@
 {
-  "name": "SmartCost",
-  "displayName": "Smart Cost",
-  "android": {
-    "package": "com.mostakshahariyar.smartcost"
+  "expo": {
+    "name": "SmartCost",
+    "displayName": "Smart Cost",
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": ["./node_modules/@expo/vector-icons/Ionicons.ttf"]
+        }
+      ]
+    ],
+    "android": {
+      "package": "com.mostakshahariyar.smartcost"
+    }
   }
 }

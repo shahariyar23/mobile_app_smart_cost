@@ -7,6 +7,20 @@ export type ReportSummary = {
   categoryBreakdown: Record<string, number>;
 };
 
+type ApiReportSummary = {
+  total_expense: number;
+  total_income: number;
+  category_breakdown: Record<string, number>;
+};
+
+function fromApiReportSummary(summary: ApiReportSummary): ReportSummary {
+  return {
+    totalExpense: summary.total_expense,
+    totalIncome: summary.total_income,
+    categoryBreakdown: summary.category_breakdown,
+  };
+}
+
 function formatDate(date: Date) {
   return date.toISOString().split('T')[0];
 }
@@ -32,15 +46,15 @@ function rangeToDates(range: ReportRange) {
 
 export const reportsApi = {
   summary: async (payload: {user_id: number; start_date: string; end_date: string}) => {
-    const {data} = await apiClient.post<ReportSummary>('/reports/summary', payload);
-    return data;
+    const {data} = await apiClient.post<ApiReportSummary>('/reports/summary', payload);
+    return fromApiReportSummary(data);
   },
   get: async (range: ReportRange) => {
     const dates = rangeToDates(range);
-    const {data} = await apiClient.post<ReportSummary>('/reports/summary', {
+    const {data} = await apiClient.post<ApiReportSummary>('/reports/summary', {
       user_id: 1,
       ...dates,
     });
-    return data;
+    return fromApiReportSummary(data);
   },
 };

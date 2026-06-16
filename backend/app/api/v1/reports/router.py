@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.dependencies.databae import get_db
+from app.models.category import Category
 from app.models.transaction import Transaction
 from app.schemas.report import ReportQuery, ReportResponse
 
@@ -24,8 +25,13 @@ def generate_report(*, payload: ReportQuery, db: Session = Depends(get_db)) -> R
     total_expense = sum(float(t.amount) for t in transactions if t.type == "expense")
     category_breakdown: dict[str, float] = {}
     for t in transactions:
-        category_breakdown.setdefault(str(t.category_id), 0.0)
-        category_breakdown[str(t.category_id)] += float(t.amount)
+        category = None
+        if t.category_id is not None:
+            category_row = db.query(Category).filter(Category.id == t.category_id).first()
+            category = category_row.name if category_row else None
+        category_key = category or "other"
+        category_breakdown.setdefault(category_key, 0.0)
+        category_breakdown[category_key] += float(t.amount)
 
     return ReportResponse(
         total_expense=total_expense,
