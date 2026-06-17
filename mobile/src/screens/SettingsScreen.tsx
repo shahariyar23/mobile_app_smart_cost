@@ -3,6 +3,9 @@ import {View, StyleSheet} from 'react-native';
 import {AppButton} from '@/components/AppButton';
 import {AppText} from '@/components/AppText';
 import {Screen} from '@/components/Screen';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '@/navigation/types';
 import {useAppDispatch, useAppSelector} from '@/store/hooks';
 import {clearCredentials} from '@/store/slices/authSlice';
 import {setThemeMode} from '@/store/slices/preferencesSlice';
@@ -10,6 +13,7 @@ import {setThemeMode} from '@/store/slices/preferencesSlice';
 export function SettingsScreen() {
   const dispatch = useAppDispatch();
   const mode = useAppSelector(state => state.preferences.themeMode);
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   return (
     <Screen>
@@ -19,6 +23,14 @@ export function SettingsScreen() {
         <AppButton title="সিস্টেম" variant={mode === 'system' ? 'primary' : 'secondary'} onPress={() => dispatch(setThemeMode('system'))} style={styles.button} />
         <AppButton title="লাইট" variant={mode === 'light' ? 'primary' : 'secondary'} onPress={() => dispatch(setThemeMode('light'))} style={styles.button} />
         <AppButton title="ডার্ক" variant={mode === 'dark' ? 'primary' : 'secondary'} onPress={() => dispatch(setThemeMode('dark'))} style={styles.button} />
+      </View>
+      <View style={{marginVertical: 16}}>
+        <AppText weight="semibold" style={{marginBottom: 8}}>অ্যাপ ডেটা</AppText>
+        <AppButton 
+          title="ক্যাটাগরি ম্যানেজমেন্ট" 
+          variant="secondary" 
+          onPress={() => navigation.navigate('Categories')} 
+        />
       </View>
       <AppButton title="লগআউট" variant="danger" onPress={() => dispatch(clearCredentials())} />
     </Screen>

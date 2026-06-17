@@ -1,6 +1,7 @@
 import React from 'react';
 import {Alert, Pressable, StyleSheet, View} from 'react-native';
 import Animated, {useAnimatedStyle, useSharedValue, withRepeat, withTiming} from 'react-native-reanimated';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import {VoiceConfirmationModal} from '@/components/VoiceConfirmationModal';
 import {AppText} from '@/components/AppText';
 import {useAppTheme} from '@/hooks/useAppTheme';
@@ -52,7 +53,7 @@ export function GlobalMicButton() {
             accessibilityLabel="ভয়েস দিয়ে লেনদেন যোগ করুন"
             onPress={isListening ? stop : start}
             style={[styles.button, {backgroundColor: isListening ? theme.colors.danger : theme.colors.primary}]}>
-            <AppText variant="title" weight="bold" style={styles.icon}>মাইক</AppText>
+            <Ionicons name="mic" size={24} color="#FFFFFF" />
           </Pressable>
         </Animated.View>
       </View>

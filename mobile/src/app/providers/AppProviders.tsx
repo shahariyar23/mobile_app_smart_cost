@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {NavigationContainer, DefaultTheme, DarkTheme} from '@react-navigation/native';
 import {navigationRef} from '@/navigation/RootNavigation';
@@ -66,10 +67,12 @@ export function AppProviders({children}: {children: React.ReactNode}) {
   }
 
   return (
-    <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <NavigationThemeProvider>{children}</NavigationThemeProvider>
-      </QueryClientProvider>
-    </Provider>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <Provider store={store}>
+        <QueryClientProvider client={queryClient}>
+          <NavigationThemeProvider>{children}</NavigationThemeProvider>
+        </QueryClientProvider>
+      </Provider>
+    </GestureHandlerRootView>
   );
 }

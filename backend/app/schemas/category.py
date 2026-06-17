@@ -14,6 +14,13 @@ class CategoryCreate(CategoryBase):
     pass
 
 
+class CategoryUpdate(BaseModel):
+    name: str | None = None
+    type: str | None = None
+    icon: str | None = None
+    color: str | None = None
+
+
 class CategoryRead(CategoryBase):
     id: int
     created_at: datetime

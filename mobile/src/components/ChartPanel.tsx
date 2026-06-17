@@ -28,7 +28,6 @@ export function ChartPanel({title, type, data}: Props) {
               donut
               innerRadius={56}
               innerCircleColor={theme.colors.surface}
-              showValues={false}
               showText={false}
               textStyle={{fontSize: 12}}
               centerLabelComponent={() => {

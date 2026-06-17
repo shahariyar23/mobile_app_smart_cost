@@ -13,6 +13,8 @@ import {InsightsScreen} from '@/screens/InsightsScreen';
 import {ReportsScreen} from '@/screens/ReportsScreen';
 import {SettingsScreen} from '@/screens/SettingsScreen';
 import {TransactionEditorScreen} from '@/screens/TransactionEditorScreen';
+import {CategoriesScreen} from '@/screens/CategoriesScreen';
+import {CategoryDetailsScreen} from '@/screens/CategoryDetailsScreen';
 import {TransactionsScreen} from '@/screens/TransactionsScreen';
 import {LoginScreen} from '@/screens/auth/LoginScreen';
 import {OtpVerificationScreen} from '@/screens/auth/OtpVerificationScreen';
@@ -126,6 +128,16 @@ function AuthenticatedApp() {
         name="TransactionEditor"
         component={TransactionEditorScreen}
         options={{title: 'লেনদেন', headerShown: false}}
+      />
+      <RootStack.Screen
+        name="Categories"
+        component={CategoriesScreen}
+        options={{title: 'ক্যাটাগরি', headerShown: false}}
+      />
+      <RootStack.Screen
+        name="CategoryDetails"
+        component={CategoryDetailsScreen}
+        options={{title: 'ক্যাটাগরি বিস্তারিত', headerShown: false}}
       />
     </>
   );

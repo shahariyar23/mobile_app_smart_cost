@@ -1,5 +1,6 @@
 import {categoryKeywords} from '@/constants/categories';
 import {CategoryKey, TransactionType, VoiceTransactionDraft} from '@/types';
+import {VoiceCategoryDraft} from '@/components/category/VoiceCategoryModal';
 import {extractAmount} from '@/utils/banglaNumber';
 
 const incomeWords = ['পেয়েছি', 'পেলাম', 'আয়', 'ইনকাম', 'বেতন', 'জমা হয়েছে', 'রিসিভ'];
@@ -48,5 +49,42 @@ export function parseBanglaVoiceCommand(transcript: string): VoiceTransactionDra
     category,
     note: cleaned,
     confidence,
+  };
+}
+
+export function parseCategoryVoiceCommand(transcript: string): VoiceCategoryDraft | null {
+  const cleaned = transcript.trim();
+  const lower = cleaned.toLowerCase();
+  
+  const isCategoryCommand = 
+    lower.includes('create category') || 
+    lower.includes('ক্যাটাগরি তৈরি') || 
+    lower.includes('ক্যাটাগরি যোগ');
+
+  if (!isCategoryCommand) {
+    return null;
+  }
+
+  const type: TransactionType = 
+    lower.includes('income') || lower.includes('আয়') || lower.includes('ইনকাম') ? 'income' : 'expense';
+
+  let name = cleaned
+    .replace(/create\s+category/i, '')
+    .replace(/ক্যাটাগরি\s+তৈরি\s+করুন/i, '')
+    .replace(/ক্যাটাগরি\s+তৈরি/i, '')
+    .replace(/ক্যাটাগরি\s+যোগ\s+করুন/i, '')
+    .replace(/ক্যাটাগরি\s+যোগ/i, '')
+    .replace(/income/i, '')
+    .replace(/expense/i, '')
+    .replace(/আয়/i, '')
+    .replace(/খরচ/i, '')
+    .trim();
+  
+  if (!name) name = 'নতুন ক্যাটাগরি';
+
+  return {
+    transcript: cleaned,
+    name,
+    type,
   };
 }

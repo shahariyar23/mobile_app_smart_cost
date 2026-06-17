@@ -24,6 +24,8 @@ export type RootStackParamList = {
   Auth: NavigatorScreenParams<AuthStackParamList>;
   Main: NavigatorScreenParams<MainTabParamList>;
   TransactionEditor: {transaction?: Transaction} | undefined;
+  Categories: undefined;
+  CategoryDetails: {categoryId: number};
 };
 
 export type AuthStackScreenProps<T extends keyof AuthStackParamList> =
